@@ -20,17 +20,20 @@ function addProduct(req, res) {
 }
 
 
-async function getProduct(req, res) {
+async function getProducts(req, res) {
 
     const results = await Product.find( {} )
 
     res.send(results)
 }
 
-function getProductbyId(req, res) {
+async function getProductbyId(req, res) {
     const { id } = req.params
+    const filter = { _id: id };
 
-    res.send( { } )
+    const result = await Product.findOne(filter)
+
+    res.send( result )
 
 }
 
@@ -60,7 +63,6 @@ async function updateProduct(req, res) {
 async function deleteProduct(req, res) {
 
     const { id } = req.params
-
     const filter = { _id: id };
 
     console.log( "trying to delete product with id: ", id )

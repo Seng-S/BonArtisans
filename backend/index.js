@@ -11,8 +11,9 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/products', getProducts)
 app.post('/product', addProduct)
+app.get('/products', getProducts)
+app.get('/product/:id', getProductbyId)
 app.put('/product/:id', updateProduct)
 app.delete('/product/:id', deleteProduct)
 
