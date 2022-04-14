@@ -1,5 +1,17 @@
+const {db} = require('../infra/connection')
+const {Product} = require('../infra/product')
+
 function addProduct(req, res) {
     const { name, type, price, rating, warranty_years, available } = req.body
+
+    Product.insertMany( [ { 
+        name, 
+        type, 
+        price, 
+        rating, 
+        warranty_years, 
+        available
+    } ])
 
     console.log( { name, type, price, rating, warranty_years, available } )
 
@@ -7,25 +19,36 @@ function addProduct(req, res) {
 
 }
 
-function getProducts(req, res) {
-    res.send( [
-            { "_id" : 1, "name" : "AC1 Phone1", "type" : "phone", "price" : 200.05, "rating" : 3.8,"warranty_years" : 1, "available" : true },
-            { "_id" : 2, "name" : "AC2 Phone2", "type" : "phone", "price" : 147.21, "rating" : 1,"warranty_years" : 3, "available" : false },
-            { "_id" : 3, "name" : "AC3 Phone3", "type" : "phone", "price" : 150, "rating" : 2,"warranty_years" : 1, "available" : true },
-            { "_id" : 4, "name" : "AC4 Phone4", "type" : "phone", "price" : 50.20, "rating" : 3,"warranty_years" : 2, "available" : true }
-        ] 
-    )
+
+async function getProduct(req, res) {
+
+    const results = await Product.find( {} )
+
+    res.send(results)
 }
 
 function getProductbyId(req, res) {
     const { id } = req.params
 
     res.send( { } )
+
 }
 
-function updateProduct(req, res) {
+async function updateProduct(req, res) {
     const { id } = req.params
     const { name, type, price, rating, warranty_years, available } = req.body
+
+    const filter = { _id: id };
+    const update = { 
+        name, 
+        type, 
+        price, 
+        rating, 
+        warranty_years, 
+        available
+    };
+
+    await Product.findOneAndUpdate(filter, update)
 
     console.log( "trying to update product with id: ", id, "with the following data: " )
 
@@ -34,11 +57,15 @@ function updateProduct(req, res) {
     res.send('update product success')
 }
 
-function deleteProduct(req, res) {
+async function deleteProduct(req, res) {
 
     const { id } = req.params
 
+    const filter = { _id: id };
+
     console.log( "trying to delete product with id: ", id )
+
+    await Product.findOneAndDelete(filter)
 
     console.log( { id } )
 
