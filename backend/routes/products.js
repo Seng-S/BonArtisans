@@ -19,11 +19,19 @@ function addProduct(req, res) {
 
 }
 
+
 async function getProduct(req, res) {
 
     const results = await Product.find( {} )
 
     res.send(results)
+}
+
+function getProductbyId(req, res) {
+    const { id } = req.params
+
+    res.send( { } )
+
 }
 
 async function updateProduct(req, res) {
@@ -65,5 +73,5 @@ async function deleteProduct(req, res) {
 
 }
 
-module.exports = {getProduct, updateProduct, addProduct, deleteProduct}
+module.exports = {getProducts, updateProduct, addProduct, deleteProduct, getProductbyId}
 
